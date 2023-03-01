@@ -1,0 +1,35 @@
+.custom-dark-bg {
+  background-color: rgb(30, 30, 30) !important;
+}
+
+.favicon-img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.list-group-item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:focus {
+  outline: none;
+}
+
+.list-group-item:focus-within {
+  background: rgb(25, 25, 25);
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.flush {
+  color: rgb(200, 200, 200);
+}

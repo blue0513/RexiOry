@@ -1,0 +1,112 @@
+<html data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="third-party/jquery-3.6.3.min.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
+    <title>RexiOry</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="
+        navbar navbar-expand-md navbar-dark
+        fixed-top
+        bg-dark
+        custom-dark-bg
+      "
+    >
+      <div
+        class="container-fluid"
+        style="align-items: flex-start; padding-top: 15px"
+      >
+        <p class="navbar-brand" style="margin-left: 10px">RexiOry</p>
+
+        <div
+          class="collapse navbar-collapse"
+          id="navbarCollapse"
+          style="justify-content: center"
+        >
+          <div
+            class="spinner-border text-secondary spinner-border-sm hide"
+            role="status"
+            id="loading"
+            style="margin-bottom: 15px; margin-right: 10px"
+          ></div>
+
+          <!-- Search Form -->
+          <div
+            class="d-flex"
+            role="search"
+            style="width: 50%; margin-bottom: 15px"
+          >
+            <input
+              id="search"
+              class="form-control me-2 search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="d-flex" style="margin-top: 80px; height: calc(100vh -85px)">
+      <!-- Sidebar -->
+      <div
+        class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark custom-dark-bg"
+        style="height: 100%; width: 105px; position: fixed"
+      >
+        <ul class="nav flex-column mb-auto">
+          <li class="nav-item" style="margin-top: -25px">
+            <a href="#" class="nav-link active">
+              <svg class="bi pe-none me-2" width="16" height="16">
+                <use xlink:href="#home" />
+              </svg>
+              Home
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main -->
+      <div
+        class="container"
+        style="
+          max-width: calc(100vw - 105px);
+          margin-top: 10px;
+          margin-left: 105px;
+          overflow: scroll;
+        "
+      >
+        <div class="row">
+          <!-- History -->
+          <div class="col-6 border rounded-3" style="padding-bottom: 16px">
+            <span style="font-size: 20px; margin: 12px">Recent History</span>
+            <ul id="historyItemList" class="list-group">
+              <!-- HistoryItems -->
+            </ul>
+          </div>
+          <!-- Bookmark -->
+          <div
+            id="bookmarks_div"
+            class="col-6 border rounded-3"
+            style="padding-bottom: 16px"
+          >
+            <span style="font-size: 20px; margin: 12px">Bookmarks</span>
+            <ul id="bookmarkItemList" class="list-group">
+              <!-- BookmarkItems -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
