@@ -33,3 +33,7 @@ a:focus {
 .flush {
   color: rgb(200, 200, 200);
 }
+
+.removed-history {
+  text-decoration: line-through;
+}

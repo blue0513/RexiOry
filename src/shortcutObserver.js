@@ -1,5 +1,6 @@
 import * as constant from "./const.js";
 import * as util from "./util.js";
+import { removeHistoryItem } from "./history.js";
 
 export function shortcutObserver(
   historyItemClass,
@@ -111,6 +112,16 @@ export function shortcutObserver(
         setTimeout(() => aElement.classList.remove("flush"), 100);
       }
       e.preventDefault();
+    }
+
+    // Remove history item
+    if ((e.metaKey || e.ctrlKey) && e.code === "KeyK") {
+      if (!!clazz && clazz.includes(historyItemClass)) {
+        const aElement = $focused[0];
+        removeHistoryItem(aElement.href);
+        aElement.classList.add("removed-history");
+        e.preventDefault();
+      }
     }
   });
 }

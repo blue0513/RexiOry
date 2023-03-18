@@ -14,6 +14,10 @@ export async function dumpHistory(query) {
   return buildHistoryItems(searchRes, query);
 }
 
+export async function removeHistoryItem(url) {
+  await chrome.history.deleteUrl({ url });
+}
+
 function buildHistoryItems(historyItems, query) {
   const items = filterMostRecentViewedTitles(groupByHistoryTitle(historyItems));
   const targetItems = items.filter(
