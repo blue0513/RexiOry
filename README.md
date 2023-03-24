@@ -29,7 +29,7 @@ RexiOry is a Chrome extension that extends the "New Tab Page" and supports fast 
 | `Cmd + f`         | Focus on the search field                           |
 | `Cmd + Enter`     | Search with Google (When focus on the search field) |
 | `Cmd + c`         | Copy URL                                            |
-| `Cmd + k`         | Delete history                                      |
+| `Cmd + k`         | Delete history, bookmark                            |
 | `Ctrl + n/p/f/b`  | Select candidates                                   |
 
 ## Acknowledgments

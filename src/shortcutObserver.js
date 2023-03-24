@@ -1,6 +1,7 @@
 import * as constant from "./const.js";
 import * as util from "./util.js";
 import { removeHistoryItem } from "./history.js";
+import { removeBookmarkItem } from "./bookmark.js";
 
 export function shortcutObserver(
   historyItemClass,
@@ -13,38 +14,38 @@ export function shortcutObserver(
 
     // Move next/prev history/bookmark
     if (e.ctrlKey && e.code === "KeyN") {
-      if (!!clazz && clazz.includes(searchClass)) {
+      if (clazz?.includes(searchClass)) {
         setTimeout(
           () => $(util.toClass(historyItemClass)).get(0).focus(),
           constant.MOVE_DEBOUNCE
         );
       }
 
-      if (!!clazz && clazz.includes(historyItemClass)) {
+      if (clazz?.includes(historyItemClass)) {
         moveFocus($focused, historyItemClass, "plus");
       }
-      if (!!clazz && clazz.includes(bookmarkItemClass)) {
+      if (clazz?.includes(bookmarkItemClass)) {
         moveFocus($focused, bookmarkItemClass, "plus");
       }
     }
     if (e.ctrlKey && e.code === "KeyP") {
-      if (!!clazz && clazz.includes(historyItemClass)) {
+      if (clazz?.includes(historyItemClass)) {
         moveFocus($focused, historyItemClass, "minus");
       }
-      if (!!clazz && clazz.includes(bookmarkItemClass)) {
+      if (clazz?.includes(bookmarkItemClass)) {
         moveFocus($focused, bookmarkItemClass, "minus");
       }
     }
 
     // Move history/bookmark
     if (e.ctrlKey && e.code === "KeyF") {
-      if (!!clazz && clazz.includes(historyItemClass)) {
+      if (clazz?.includes(historyItemClass)) {
         setTimeout(
           () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
           constant.MOVE_DEBOUNCE
         );
       }
-      if (!!clazz && clazz.includes(bookmarkItemClass)) {
+      if (clazz?.includes(bookmarkItemClass)) {
         setTimeout(
           () => $(util.toClass(historyItemClass)).get(0).focus(),
           constant.MOVE_DEBOUNCE
@@ -52,13 +53,13 @@ export function shortcutObserver(
       }
     }
     if (e.ctrlKey && e.code === "KeyB") {
-      if (!!clazz && clazz.includes(historyItemClass)) {
+      if (clazz?.includes(historyItemClass)) {
         setTimeout(
           () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
           constant.MOVE_DEBOUNCE
         );
       }
-      if (!!clazz && clazz.includes(bookmarkItemClass)) {
+      if (clazz?.includes(bookmarkItemClass)) {
         setTimeout(
           () => $(util.toClass(historyItemClass)).get(0).focus(),
           constant.MOVE_DEBOUNCE
@@ -68,11 +69,7 @@ export function shortcutObserver(
 
     // Search by google
     if (e.metaKey && e.code === "Enter") {
-      if (
-        !!clazz &&
-        clazz.includes(searchClass) &&
-        $(util.toId(searchClass)).val()
-      ) {
+      if (clazz?.includes(searchClass) && $(util.toId(searchClass)).val()) {
         chrome.search.query({ text: $(util.toId(searchClass)).val() });
         e.preventDefault();
       }
@@ -103,8 +100,8 @@ export function shortcutObserver(
     // Copy URL
     if ((e.metaKey || e.ctrlKey) && e.code === "KeyC") {
       if (
-        !!clazz &&
-        (clazz.includes(historyItemClass) || clazz.includes(bookmarkItemClass))
+        clazz?.includes(historyItemClass) ||
+        clazz?.includes(bookmarkItemClass)
       ) {
         const aElement = $focused[0];
         navigator.clipboard.writeText(aElement.href);
@@ -114,14 +111,18 @@ export function shortcutObserver(
       e.preventDefault();
     }
 
-    // Remove history item
+    // Remove history, bookmark item
     if ((e.metaKey || e.ctrlKey) && e.code === "KeyK") {
-      if (!!clazz && clazz.includes(historyItemClass)) {
-        const aElement = $focused[0];
+      const aElement = $focused[0];
+      if (clazz?.includes(historyItemClass)) {
         removeHistoryItem(aElement.href);
-        aElement.classList.add("removed-history");
-        e.preventDefault();
+        aElement.classList.add("removed-item");
       }
+      if (clazz?.includes(bookmarkItemClass)) {
+        removeBookmarkItem(aElement.href);
+        aElement.classList.add("removed-item");
+      }
+      e.preventDefault();
     }
   });
 }

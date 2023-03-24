@@ -5,6 +5,13 @@ export async function dumpBookmarks(query) {
   return buildBookmarkItems(bookmarkTreeNodes, query);
 }
 
+export async function removeBookmarkItem(url) {
+  const bookmarks = await chrome.bookmarks.search({ url });
+  if (bookmarks[0]?.id) {
+    await chrome.bookmarks.remove(bookmarks[0].id);
+  }
+}
+
 function buildBookmarkItems(bookmarkTreeNodes, query) {
   const bookmarks = dumpTreeNodes(bookmarkTreeNodes);
 
