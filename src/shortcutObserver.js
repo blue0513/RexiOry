@@ -117,12 +117,13 @@ export function shortcutObserver(
       if (clazz?.includes(historyItemClass)) {
         removeHistoryItem(aElement.href);
         aElement.classList.add("removed-item");
+        e.preventDefault();
       }
       if (clazz?.includes(bookmarkItemClass)) {
         removeBookmarkItem(aElement.href);
         aElement.classList.add("removed-item");
+        e.preventDefault();
       }
-      e.preventDefault();
     }
   });
 }
