@@ -91,6 +91,6 @@ async function searchInputObserver() {
       loading.classList.add("hide");
 
       preSearchWord = searchWord;
-    })
+    }, constant.SEARCH_DEBOUNCE)
   );
 }
