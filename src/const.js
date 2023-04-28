@@ -1,6 +1,6 @@
 export const MAX_HISTORY_RETRIEVE_COUNT = 10000;
 export const MAX_HISTORY_VIEW_COUNT = 100;
-export const SEARCH_DEBOUNCE = 0;
+export const SEARCH_DEBOUNCE = 100;
 export const MOVE_DEBOUNCE = 10;
 export const SEARCH_FORM_CLASS = "search";
 export const HISTORY_LIST_CLASS = "historyItemList";
