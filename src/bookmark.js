@@ -1,4 +1,5 @@
 import Fuse from "../third-party/fuse.esm.js";
+import * as constant from "./const.js";
 
 export async function dumpBookmarks(query) {
   const bookmarkTreeNodes = await chrome.bookmarks.getTree();
@@ -42,7 +43,7 @@ function buildFuseObject(bookmarks) {
   });
   const fuse = new Fuse(fuseTarget, {
     keys: ["title", "url"],
-    shouldSort: true,
+    shouldSort: constant.SHOULD_SORT,
   });
 
   return fuse;
