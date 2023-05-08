@@ -61,7 +61,8 @@ function filterMostRecentViewedTitles(historyGroup) {
 function buildFuseObject(items) {
   return new Fuse(items, {
     keys: ["title", "url"],
-    shouldSort: constant.SHOULD_SORT,
+    shouldSort: constant.SORT_BY_SCORE,
+    threshold: constant.SCORE_THRESHOLD,
   });
 }
 

@@ -3,6 +3,7 @@ export const MAX_HISTORY_VIEW_COUNT = 100;
 export const SEARCH_DEBOUNCE = 100;
 export const MOVE_DEBOUNCE = 10;
 export const SORT_BY_SCORE = false;
+export const SCORE_THRESHOLD = 0.3;
 export const SEARCH_FORM_CLASS = "search";
 export const HISTORY_LIST_CLASS = "historyItemList";
 export const HISTORY_ITEM_CLASS = "historyItem";
