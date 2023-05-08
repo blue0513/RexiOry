@@ -43,7 +43,8 @@ function buildFuseObject(bookmarks) {
   });
   const fuse = new Fuse(fuseTarget, {
     keys: ["title", "url"],
-    shouldSort: constant.SHOULD_SORT,
+    shouldSort: constant.SORT_BY_SCORE,
+    threshold: constant.SCORE_THRESHOLD,
   });
 
   return fuse;
