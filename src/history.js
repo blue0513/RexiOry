@@ -21,7 +21,7 @@ export async function removeHistoryItem(url) {
 function buildHistoryItems(historyItems, query) {
   const items = filterMostRecentViewedTitles(groupByHistoryTitle(historyItems));
   const targetItems = items.filter(
-    (item) => !shouldIgnoreHistoryItem(item.url)
+    (item) => !shouldIgnoreHistoryItem(item.url),
   );
 
   if (!query) {
@@ -53,7 +53,7 @@ function filterMostRecentViewedTitles(historyGroup) {
   return Object.keys(historyGroup).map((title) => {
     const items = historyGroup[title];
     return items.sort(
-      (itemA, itemB) => itemA.lastVisitTime > itemB.lastVisitTime
+      (itemA, itemB) => itemA.lastVisitTime > itemB.lastVisitTime,
     )[0];
   });
 }

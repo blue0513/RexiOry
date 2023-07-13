@@ -25,7 +25,7 @@ async function initialize() {
   shortcutObserver(
     constant.HISTORY_ITEM_CLASS,
     constant.BOOKMARK_ITEM_CLASS,
-    constant.SEARCH_FORM_CLASS
+    constant.SEARCH_FORM_CLASS,
   );
   searchInputObserver();
 }
@@ -37,7 +37,7 @@ async function buildHistoryBookmarkList(searchWord) {
   buildItemList(
     historyItems,
     constant.HISTORY_LIST_CLASS,
-    constant.HISTORY_ITEM_CLASS
+    constant.HISTORY_ITEM_CLASS,
   );
 
   // Bookmarks
@@ -46,7 +46,7 @@ async function buildHistoryBookmarkList(searchWord) {
   buildItemList(
     bookmarkItems,
     constant.BOOKMARK_LIST_CLASS,
-    constant.BOOKMARK_ITEM_CLASS
+    constant.BOOKMARK_ITEM_CLASS,
   );
 }
 
@@ -91,6 +91,6 @@ async function searchInputObserver() {
       loading.classList.add("hide");
 
       preSearchWord = searchWord;
-    }, constant.SEARCH_DEBOUNCE)
+    }, constant.SEARCH_DEBOUNCE),
   );
 }
