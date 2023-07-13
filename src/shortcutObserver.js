@@ -6,7 +6,7 @@ import { removeBookmarkItem } from "./bookmark.js";
 export function shortcutObserver(
   historyItemClass,
   bookmarkItemClass,
-  searchClass
+  searchClass,
 ) {
   $(window).keydown(function (e) {
     const $focused = $(":focus");
@@ -17,7 +17,7 @@ export function shortcutObserver(
       if (clazz?.includes(searchClass)) {
         setTimeout(
           () => $(util.toClass(historyItemClass)).get(0).focus(),
-          constant.MOVE_DEBOUNCE
+          constant.MOVE_DEBOUNCE,
         );
       }
 
@@ -42,13 +42,13 @@ export function shortcutObserver(
       if (clazz?.includes(historyItemClass)) {
         setTimeout(
           () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
-          constant.MOVE_DEBOUNCE
+          constant.MOVE_DEBOUNCE,
         );
       }
       if (clazz?.includes(bookmarkItemClass)) {
         setTimeout(
           () => $(util.toClass(historyItemClass)).get(0).focus(),
-          constant.MOVE_DEBOUNCE
+          constant.MOVE_DEBOUNCE,
         );
       }
     }
@@ -56,13 +56,13 @@ export function shortcutObserver(
       if (clazz?.includes(historyItemClass)) {
         setTimeout(
           () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
-          constant.MOVE_DEBOUNCE
+          constant.MOVE_DEBOUNCE,
         );
       }
       if (clazz?.includes(bookmarkItemClass)) {
         setTimeout(
           () => $(util.toClass(historyItemClass)).get(0).focus(),
-          constant.MOVE_DEBOUNCE
+          constant.MOVE_DEBOUNCE,
         );
       }
     }
