@@ -1,7 +1,7 @@
 import Fuse from "../third-party/fuse.esm.js";
 import * as constant from "./const.js";
 
-export async function dumpHistory(query) {
+export async function dumpHistory(query, ignoreUrls) {
   const microsecondsPerYear = 1000 * 60 * 60 * 24 * 365;
   const oneYearAgo = new Date().getTime() - microsecondsPerYear;
 
@@ -11,17 +11,17 @@ export async function dumpHistory(query) {
     maxResults: constant.MAX_HISTORY_RETRIEVE_COUNT,
   });
 
-  return buildHistoryItems(searchRes, query);
+  return buildHistoryItems(searchRes, query, ignoreUrls);
 }
 
 export async function removeHistoryItem(url) {
   await chrome.history.deleteUrl({ url });
 }
 
-function buildHistoryItems(historyItems, query) {
+function buildHistoryItems(historyItems, query, ignoreUrls) {
   const items = filterMostRecentViewedTitles(groupByHistoryTitle(historyItems));
   const targetItems = items.filter(
-    (item) => !shouldIgnoreHistoryItem(item.url),
+    (item) => !shouldIgnoreHistoryItem(item.url, ignoreUrls),
   );
 
   if (!query) {
@@ -66,9 +66,13 @@ function buildFuseObject(items) {
   });
 }
 
-function shouldIgnoreHistoryItem(url) {
-  return (
-    url.startsWith("https://www.google.com/search") ||
-    url.startsWith("chrome-extension")
-  );
+function shouldIgnoreHistoryItem(url, ignoreUrls) {
+  const isDefaultIgnoreUrl = [
+    "https://www.google.com/search",
+    "chrome-extension",
+  ].some((u) => url.startsWith(u));
+
+  const isUserDefinedIgnoreUrl = ignoreUrls.some((u) => url.includes(u));
+
+  return isDefaultIgnoreUrl || isUserDefinedIgnoreUrl;
 }

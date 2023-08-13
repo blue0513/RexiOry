@@ -37,3 +37,7 @@ a:focus {
 .removed-item {
   text-decoration: line-through;
 }
+
+.nav-link:hover {
+  cursor: pointer;
+}

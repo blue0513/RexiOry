@@ -33,3 +33,11 @@ export function toClass(className) {
 export function toId(idName) {
   return `#${idName}`;
 }
+
+export async function restoreIgnoreUrls() {
+  const item = await chrome.storage.sync.get({ ignoreUrls: "" });
+  return item.ignoreUrls
+    .split(",")
+    .filter((url) => !!url)
+    .map((url) => url.trim());
+}
