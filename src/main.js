@@ -28,11 +28,15 @@ async function initialize() {
     constant.SEARCH_FORM_CLASS,
   );
   searchInputObserver();
+
+  // Observe option link click
+  optionEventObserver();
 }
 
 async function buildHistoryBookmarkList(searchWord) {
   // History
-  const historyItems = await dumpHistory(searchWord);
+  const ignoreUrls = await util.restoreIgnoreUrls();
+  const historyItems = await dumpHistory(searchWord, ignoreUrls);
   $(util.toId(constant.HISTORY_LIST_CLASS)).empty();
   buildItemList(
     historyItems,
@@ -93,4 +97,14 @@ async function searchInputObserver() {
       preSearchWord = searchWord;
     }, constant.SEARCH_DEBOUNCE),
   );
+}
+
+async function optionEventObserver() {
+  document.querySelector("#options").addEventListener("click", function () {
+    if (chrome.runtime.openOptionsPage) {
+      chrome.runtime.openOptionsPage();
+    } else {
+      window.open(chrome.runtime.getURL("options.html"));
+    }
+  });
 }
