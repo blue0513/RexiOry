@@ -13,7 +13,7 @@ export function shortcutObserver(
     const clazz = $focused.attr("class");
 
     // Move next/prev history/bookmark
-    if (e.ctrlKey && e.code === "KeyN") {
+    if ((e.ctrlKey && e.code === "KeyN") || e.code === "ArrowDown") {
       if (clazz?.includes(searchClass)) {
         setTimeout(
           () => $(util.toClass(historyItemClass)).get(0).focus(),
@@ -28,7 +28,7 @@ export function shortcutObserver(
         moveFocus($focused, bookmarkItemClass, "plus");
       }
     }
-    if (e.ctrlKey && e.code === "KeyP") {
+    if ((e.ctrlKey && e.code === "KeyP") || e.code === "ArrowUp") {
       if (clazz?.includes(historyItemClass)) {
         moveFocus($focused, historyItemClass, "minus");
       }
@@ -38,7 +38,7 @@ export function shortcutObserver(
     }
 
     // Move history/bookmark
-    if (e.ctrlKey && e.code === "KeyF") {
+    if ((e.ctrlKey && e.code === "KeyF") || e.code === "ArrowRight") {
       if (clazz?.includes(historyItemClass)) {
         setTimeout(
           () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
@@ -52,7 +52,7 @@ export function shortcutObserver(
         );
       }
     }
-    if (e.ctrlKey && e.code === "KeyB") {
+    if ((e.ctrlKey && e.code === "KeyB") || e.code === "ArrowLeft") {
       if (clazz?.includes(historyItemClass)) {
         setTimeout(
           () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
