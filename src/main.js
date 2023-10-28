@@ -4,6 +4,7 @@ import * as util from "./util.js";
 import { shortcutObserver } from "./shortcutObserver.js";
 import { dumpHistory } from "./history.js";
 import { dumpBookmarks } from "./bookmark.js";
+import { storeSuggestCandidates, findSuggestCandidate } from "./suggest.js";
 
 let preSearchWord = "";
 
@@ -26,6 +27,8 @@ async function initialize() {
     constant.HISTORY_ITEM_CLASS,
     constant.BOOKMARK_ITEM_CLASS,
     constant.SEARCH_FORM_CLASS,
+    constant.SUGGEST_CLASS,
+    storeSuggestCandidates,
   );
   searchInputObserver();
 
@@ -80,6 +83,19 @@ function buildItemList(data, elementId, itemClass) {
 }
 
 async function searchInputObserver() {
+  $(util.toId(constant.SEARCH_FORM_CLASS)).keyup(
+    util.debounce(async function () {
+      const searchWord = $(util.toId(constant.SEARCH_FORM_CLASS)).val();
+      if (searchWord === "") {
+        document.getElementById(constant.SUGGEST_CLASS).innerText = "";
+        return;
+      }
+
+      const suggest = (await findSuggestCandidate(searchWord)) ?? "";
+      document.getElementById(constant.SUGGEST_CLASS).innerText = suggest;
+    }, 0),
+  );
+
   $(util.toId(constant.SEARCH_FORM_CLASS)).keyup(
     util.debounce(async function () {
       const searchWord = $(util.toId(constant.SEARCH_FORM_CLASS)).val();
