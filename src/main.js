@@ -93,7 +93,7 @@ async function searchInputObserver() {
 
       const suggest = (await findSuggestCandidate(searchWord)) ?? "";
       document.getElementById(constant.SUGGEST_CLASS).innerText = suggest;
-    }, 0),
+    }, 10),
   );
 
   $(util.toId(constant.SEARCH_FORM_CLASS)).keyup(

@@ -28,8 +28,9 @@ async function fetchSuggestCandidates() {
 }
 
 function appendSuggestion(candidates, candidate) {
-  let _candidates = structuredClone(candidates);
-  _candidates.unshift(candidate);
-  _candidates.reverse().slice(constant.MAX_SUGGEST_CANDIDATES).reverse();
+  const _candidates = Array.from(new Set([candidate, ...candidates]));
+  if (_candidates.length > constant.MAX_SUGGEST_CANDIDATES) {
+    _candidates.splice(-1 * (_candidates.length - constant.MAX_SUGGEST_CANDIDATES));
+  }
   return _candidates;
 }
