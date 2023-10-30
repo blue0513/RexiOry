@@ -41,3 +41,13 @@ a:focus {
 .nav-link:hover {
   cursor: pointer;
 }
+
+.suggestion {
+  position: absolute;
+  padding: 0.45rem 0.8rem;
+  line-height: 1.5;
+
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  font-size: 1rem;
+}

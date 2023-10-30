@@ -9,3 +9,5 @@ export const HISTORY_LIST_CLASS = "historyItemList";
 export const HISTORY_ITEM_CLASS = "historyItem";
 export const BOOKMARK_LIST_CLASS = "bookmarkItemList";
 export const BOOKMARK_ITEM_CLASS = "bookmarkItem";
+export const MAX_SUGGEST_CANDIDATES = 100;
+export const SUGGEST_CLASS = "suggestion";

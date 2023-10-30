@@ -7,10 +7,17 @@ export function shortcutObserver(
   historyItemClass,
   bookmarkItemClass,
   searchClass,
+  suggestClass,
+  storeSuggestCandidatesFn,
 ) {
   $(window).keydown(function (e) {
     const $focused = $(":focus");
     const clazz = $focused.attr("class");
+
+    if (e.code === "Enter") {
+      const searchedText = $(util.toId(searchClass)).val();
+      storeSuggestCandidatesFn(searchedText);
+    }
 
     // Move next/prev history/bookmark
     if ((e.ctrlKey && e.code === "KeyN") || e.code === "ArrowDown") {
@@ -71,6 +78,15 @@ export function shortcutObserver(
     if (e.metaKey && e.code === "Enter") {
       if (clazz?.includes(searchClass) && $(util.toId(searchClass)).val()) {
         chrome.search.query({ text: $(util.toId(searchClass)).val() });
+        e.preventDefault();
+      }
+    }
+
+    // Apply suggestion
+    if ((e.ctrlKey && e.code === "KeyE") || e.code === "Tab") {
+      if (clazz?.includes(searchClass) && $(util.toId(searchClass)).val()) {
+        const suggestion = document.getElementById(suggestClass).innerText;
+        $(util.toId(searchClass)).val(suggestion);
         e.preventDefault();
       }
     }
