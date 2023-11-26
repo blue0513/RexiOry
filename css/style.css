@@ -51,3 +51,18 @@ a:focus {
   font-weight: 400;
   font-size: 1rem;
 }
+
+#iframe-container iframe {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 70%;
+  min-width: 780px;
+  height: 70%;
+  z-index: 9999;
+
+  border: 1px solid black;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}

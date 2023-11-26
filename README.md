@@ -5,11 +5,16 @@
 [![CI](https://github.com/blue0513/RexiOry/actions/workflows/ci.yml/badge.svg)](https://github.com/blue0513/RexiOry/actions/workflows/ci.yml)
 
 RexiOry is a Chrome extension that extends the "New Tab Page" and supports fast offline fuzzy searches of History & Bookmarks.
+Additionally, by displaying _Romnibar_ on the current tab, you can quickly access Rexiory.
 
 - *This extension is strongly inspired by [chikamichi](https://github.com/kawamataryo/chikamichi) and pays the utmost respect!*
 - *This extension is a prototype. We do destructive changes from time to time*
 
+### New Tab Page
 ![output](https://user-images.githubusercontent.com/8979468/222137781-7b02f2ad-b052-4995-9e07-24b31f8c47ba.gif)
+
+### Romnibar
+![Romnibar](https://github.com/blue0513/RexiOry/assets/8979468/0028a03a-e457-4042-ad6a-d709353e1fa5)
 
 ## Features
 
@@ -20,7 +25,7 @@ RexiOry is a Chrome extension that extends the "New Tab Page" and supports fast 
 ## Usage
 
 1. Just follow [official instruction](https://developer.chrome.com/docs/extensions/) and install this extension
-1. Just open "New Tab Page"!
+1. Just open "New Tab Page", or `Alt+R` to show _Romnibar_
 
 ### Shortcuts
 
@@ -31,6 +36,7 @@ RexiOry is a Chrome extension that extends the "New Tab Page" and supports fast 
 | `Cmd + c`         | Copy URL                                            |
 | `Cmd + k`         | Delete history, bookmark                            |
 | `Ctrl + n/p/f/b`  | Select candidates                                   |
+| `Alt + r`         | Show Romnibar                                       |
 
 ## Acknowledgments
 
