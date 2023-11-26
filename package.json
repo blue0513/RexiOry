@@ -1,10 +1,11 @@
 {
     "name": "RexiOry",
     "scripts": {
-        "eslint": "npx eslint src/*.js",
-        "eslint-fix": "npx eslint --fix src/*.js",
-        "prettier": "npx prettier --check src/*.js *.html css/*.css",
-        "prettier-fix": "npx prettier --write src/*.js *.html css/*.css",
+        "eslint": "npx eslint 'src/**/*.js'",
+        "eslint-fix": "npx eslint --fix 'src/**/*.js'",
+        "prettier": "npx prettier --check 'src/**/*.js' *.html css/*.css",
+        "prettier-fix": "npx prettier --write 'src/**/*.js' *.html css/*.css",
+        "fix-all": "npm run eslint-fix && npm run prettier-fix",
         "check-all": "npm run eslint && npm run prettier"
     },
     "devDependencies": {

@@ -1,32 +1,67 @@
 {
-    "manifest_version": 3,
-    "name": "RexiOry",
-    "description": "",
-    "version": "1.0",
-    "permissions": [
-        "history",
-        "favicon",
-        "bookmarks",
-        "search",
-        "storage"
-    ],
-    "options_ui": {
-        "page": "options.html",
-        "open_in_tab": false
-    },
-    "chrome_url_overrides" : {
-        "newtab": "index.html"
-    },
-    "web_accessible_resources": [
-        {
-        "resources": ["_favicon/*"],
-        "matches": ["<all_urls>"]
+  "manifest_version": 3,
+  "name": "RexiOry",
+  "description": "",
+  "version": "1.0",
+  "background": {
+    "service_worker": "src/romnibar/rexioryWorker.js"
+  },
+  "permissions": [
+    "history",
+    "favicon",
+    "bookmarks",
+    "search",
+    "storage",
+    "tabs",
+    "scripting",
+    "webNavigation"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "_favicon/*",
+        "index.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
-    ],
-    "icons": {
-        "16": "favicon/favicon16.png",
-        "32": "favicon/favicon32.png",
-        "48": "favicon/favicon48.png",
-        "128": "favicon/favicon128.png"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "src/romnibar/contentScript.js"
+      ]
     }
+  ],
+  "commands": {
+    "show": {
+      "suggested_key": {
+        "default": "Alt+R",
+        "mac": "Alt+R"
+      },
+      "description": "Show Romnibar"
+    }
+  },
+  "icons": {
+    "16": "favicon/favicon16.png",
+    "32": "favicon/favicon32.png",
+    "48": "favicon/favicon48.png",
+    "128": "favicon/favicon128.png"
+  }
 }

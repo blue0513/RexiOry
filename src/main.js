@@ -15,6 +15,8 @@ initialize();
 //////////////////
 
 async function initialize() {
+  changeHtml();
+
   // Show history & bookmarks
   document.addEventListener("DOMContentLoaded", async function () {
     await buildHistoryBookmarkList("");
@@ -116,11 +118,25 @@ async function searchInputObserver() {
 }
 
 async function optionEventObserver() {
-  document.querySelector("#options").addEventListener("click", function () {
+  document.querySelector("#options")?.addEventListener("click", function () {
     if (chrome.runtime.openOptionsPage) {
       chrome.runtime.openOptionsPage();
     } else {
       window.open(chrome.runtime.getURL("options.html"));
     }
   });
+}
+
+function changeHtml() {
+  const insideIframe = window.self !== window.top;
+  if (!insideIframe) return;
+
+  document.head.insertAdjacentHTML("beforeend", '<base target="_parent">');
+
+  const sidebar = document.querySelector(".rexiory-sidebar");
+  sidebar.remove();
+
+  const container = document.querySelector(".rexiory-container");
+  container.style.marginLeft = "inherit";
+  container.style.maxWidth = "inherit";
 }
