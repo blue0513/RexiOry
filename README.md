@@ -10,8 +10,11 @@ Additionally, by displaying _Romnibar_ on the current tab, you can quickly acces
 - *This extension is strongly inspired by [chikamichi](https://github.com/kawamataryo/chikamichi) and pays the utmost respect!*
 - *This extension is a prototype. We do destructive changes from time to time*
 
+### New Tab Page
 ![output](https://user-images.githubusercontent.com/8979468/222137781-7b02f2ad-b052-4995-9e07-24b31f8c47ba.gif)
-![Romnibar]()
+
+### Romnibar
+![Romnibar](https://github.com/blue0513/RexiOry/assets/8979468/0028a03a-e457-4042-ad6a-d709353e1fa5)
 
 ## Features
 
