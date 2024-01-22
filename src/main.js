@@ -26,8 +26,6 @@ async function initialize() {
 
   // Observe user actions
   shortcutObserver(
-    constant.HISTORY_ITEM_CLASS,
-    constant.BOOKMARK_ITEM_CLASS,
     constant.SEARCH_FORM_CLASS,
     constant.SUGGEST_CLASS,
     storeSuggestCandidates,
@@ -57,6 +55,19 @@ async function buildHistoryBookmarkList(searchWord) {
     constant.BOOKMARK_LIST_CLASS,
     constant.BOOKMARK_ITEM_CLASS,
   );
+
+  const searchItems = await fetchAutocomplete(searchWord);
+  $(util.toId(constant.SEARCH_LIST_CLASS)).empty();
+  buildItemList(
+    searchItems?.map((item) => {
+      return {
+        title: item.title,
+        url: item.url,
+      };
+    }) ?? [],
+    constant.SEARCH_LIST_CLASS,
+    constant.SEARCH_ITEM_CLASS,
+  );
 }
 
 function buildItemList(data, elementId, itemClass) {
@@ -82,6 +93,39 @@ function buildItemList(data, elementId, itemClass) {
 
     ul.appendChild(li);
   }
+}
+
+async function fetchAutocomplete(searchWord) {
+  if (searchWord === "") {
+    return [];
+  }
+
+  const query = encodeURIComponent(searchWord);
+  const url = `https://suggestqueries.google.com/complete/search?output=toolbar&hl=en&q=${query}`;
+  const response = await fetch(url);
+  const data = await response.text();
+
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(data, "text/xml");
+  const suggestions = xmlDoc.getElementsByTagName("suggestion");
+
+  const suggestionList = [];
+  for (let i = 0; i < suggestions.length; i++) {
+    const text = suggestions[i].getAttribute("data");
+    suggestionList.push({
+      title: text,
+      url: `https://www.google.com/search?q=${encodeURIComponent(text)}`,
+    });
+  }
+
+  return (
+    suggestionList.map((item) => {
+      return {
+        title: item.title,
+        url: item.url,
+      };
+    }) ?? []
+  );
 }
 
 async function searchInputObserver() {

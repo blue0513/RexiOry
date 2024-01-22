@@ -3,9 +3,13 @@ import * as util from "./util.js";
 import { removeHistoryItem } from "./history.js";
 import { removeBookmarkItem } from "./bookmark.js";
 
+const cycleOrder = [
+  constant.HISTORY_ITEM_CLASS,
+  constant.BOOKMARK_ITEM_CLASS,
+  constant.SEARCH_ITEM_CLASS,
+];
+
 export function shortcutObserver(
-  historyItemClass,
-  bookmarkItemClass,
   searchClass,
   suggestClass,
   storeSuggestCandidatesFn,
@@ -22,53 +26,50 @@ export function shortcutObserver(
     // Move next/prev history/bookmark
     if ((e.ctrlKey && e.code === "KeyN") || e.code === "ArrowDown") {
       if (clazz?.includes(searchClass)) {
+        const firstItemClass = findFirstItemClass();
         setTimeout(
-          () => $(util.toClass(historyItemClass)).get(0).focus(),
+          () => $(util.toClass(firstItemClass)).get(0).focus(),
           constant.MOVE_DEBOUNCE,
         );
       }
 
-      if (clazz?.includes(historyItemClass)) {
-        moveFocus($focused, historyItemClass, "plus");
+      if (clazz?.includes(constant.HISTORY_ITEM_CLASS)) {
+        moveFocus($focused, constant.HISTORY_ITEM_CLASS, "plus");
       }
-      if (clazz?.includes(bookmarkItemClass)) {
-        moveFocus($focused, bookmarkItemClass, "plus");
+      if (clazz?.includes(constant.BOOKMARK_ITEM_CLASS)) {
+        moveFocus($focused, constant.BOOKMARK_ITEM_CLASS, "plus");
+      }
+      if (clazz?.includes(constant.SEARCH_ITEM_CLASS)) {
+        moveFocus($focused, constant.SEARCH_ITEM_CLASS, "plus");
       }
     }
     if ((e.ctrlKey && e.code === "KeyP") || e.code === "ArrowUp") {
-      if (clazz?.includes(historyItemClass)) {
-        moveFocus($focused, historyItemClass, "minus");
+      if (clazz?.includes(constant.HISTORY_ITEM_CLASS)) {
+        moveFocus($focused, constant.HISTORY_ITEM_CLASS, "minus");
       }
-      if (clazz?.includes(bookmarkItemClass)) {
-        moveFocus($focused, bookmarkItemClass, "minus");
+      if (clazz?.includes(constant.BOOKMARK_ITEM_CLASS)) {
+        moveFocus($focused, constant.BOOKMARK_ITEM_CLASS, "minus");
+      }
+      if (clazz?.includes(constant.SEARCH_ITEM_CLASS)) {
+        moveFocus($focused, constant.SEARCH_ITEM_CLASS, "minus");
       }
     }
 
     // Move history/bookmark
     if ((e.ctrlKey && e.code === "KeyF") || e.code === "ArrowRight") {
-      if (clazz?.includes(historyItemClass)) {
+      if (cycleOrder.includes(clazz)) {
+        const nextIndex = findNextIndex(clazz);
         setTimeout(
-          () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
-          constant.MOVE_DEBOUNCE,
-        );
-      }
-      if (clazz?.includes(bookmarkItemClass)) {
-        setTimeout(
-          () => $(util.toClass(historyItemClass)).get(0).focus(),
+          () => $(util.toClass(cycleOrder[nextIndex])).get(0).focus(),
           constant.MOVE_DEBOUNCE,
         );
       }
     }
     if ((e.ctrlKey && e.code === "KeyB") || e.code === "ArrowLeft") {
-      if (clazz?.includes(historyItemClass)) {
+      if (cycleOrder.includes(clazz)) {
+        const prevIndex = findPrevIndex(clazz);
         setTimeout(
-          () => $(util.toClass(bookmarkItemClass)).get(0).focus(),
-          constant.MOVE_DEBOUNCE,
-        );
-      }
-      if (clazz?.includes(bookmarkItemClass)) {
-        setTimeout(
-          () => $(util.toClass(historyItemClass)).get(0).focus(),
+          () => $(util.toClass(cycleOrder[prevIndex])).get(0).focus(),
           constant.MOVE_DEBOUNCE,
         );
       }
@@ -116,8 +117,8 @@ export function shortcutObserver(
     // Copy URL
     if ((e.metaKey || e.ctrlKey) && e.code === "KeyC") {
       if (
-        clazz?.includes(historyItemClass) ||
-        clazz?.includes(bookmarkItemClass)
+        clazz?.includes(constant.HISTORY_ITEM_CLASS) ||
+        clazz?.includes(constant.BOOKMARK_ITEM_CLASS)
       ) {
         const aElement = $focused[0];
         navigator.clipboard.writeText(aElement.href);
@@ -130,17 +131,49 @@ export function shortcutObserver(
     // Remove history, bookmark item
     if ((e.metaKey || e.ctrlKey) && e.code === "KeyK") {
       const aElement = $focused[0];
-      if (clazz?.includes(historyItemClass)) {
+      if (clazz?.includes(constant.HISTORY_ITEM_CLASS)) {
         removeHistoryItem(aElement.href);
         aElement.classList.add("removed-item");
         e.preventDefault();
       }
-      if (clazz?.includes(bookmarkItemClass)) {
+      if (clazz?.includes(constant.BOOKMARK_ITEM_CLASS)) {
         removeBookmarkItem(aElement.href);
         aElement.classList.add("removed-item");
         e.preventDefault();
       }
     }
+  });
+}
+
+function findNextIndex(clazz) {
+  const currentIndex = cycleOrder.findIndex((item) => clazz === item);
+  const nextIndex =
+    currentIndex + 1 > cycleOrder.length - 1 ? 0 : currentIndex + 1;
+  const nextItemExist = $(util.toClass(cycleOrder[nextIndex])).length > 0;
+
+  if (nextItemExist) {
+    return nextIndex;
+  } else {
+    return findNextIndex(cycleOrder[nextIndex]);
+  }
+}
+
+function findPrevIndex(clazz) {
+  const currentIndex = cycleOrder.findIndex((item) => clazz === item);
+  const prevIndex =
+    currentIndex - 1 < 0 ? cycleOrder.length - 1 : currentIndex - 1;
+  const prevItemExist = $(util.toClass(cycleOrder[prevIndex])).length > 0;
+
+  if (prevItemExist) {
+    return prevIndex;
+  } else {
+    return findPrevIndex(cycleOrder[prevIndex]);
+  }
+}
+
+function findFirstItemClass() {
+  return cycleOrder.find((itemClass) => {
+    return $(util.toClass(itemClass)).length > 0;
   });
 }
 
