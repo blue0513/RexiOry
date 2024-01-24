@@ -4,7 +4,11 @@ import * as util from "./util.js";
 import { shortcutObserver } from "./shortcutObserver.js";
 import { dumpHistory } from "./history.js";
 import { dumpBookmarks } from "./bookmark.js";
-import { storeSuggestCandidates, findSuggestCandidate } from "./suggest.js";
+import {
+  storeAutoCompleteCandidates,
+  findAutoCompleteCandidate,
+} from "./autoComplete.js";
+import { fetchSearchSuggestions } from "./suggest.js";
 
 let preSearchWord = "";
 
@@ -27,8 +31,8 @@ async function initialize() {
   // Observe user actions
   shortcutObserver(
     constant.SEARCH_FORM_CLASS,
-    constant.SUGGEST_CLASS,
-    storeSuggestCandidates,
+    constant.AUTO_COMPLETE_CLASS,
+    storeAutoCompleteCandidates,
   );
   searchInputObserver();
 
@@ -56,15 +60,11 @@ async function buildHistoryBookmarkList(searchWord) {
     constant.BOOKMARK_ITEM_CLASS,
   );
 
-  const searchItems = await fetchAutocomplete(searchWord);
+  // Search suggestions
+  const searchItems = await fetchSearchSuggestions(searchWord);
   $(util.toId(constant.SEARCH_LIST_CLASS)).empty();
   buildItemList(
-    searchItems?.map((item) => {
-      return {
-        title: item.title,
-        url: item.url,
-      };
-    }) ?? [],
+    searchItems,
     constant.SEARCH_LIST_CLASS,
     constant.SEARCH_ITEM_CLASS,
   );
@@ -95,50 +95,17 @@ function buildItemList(data, elementId, itemClass) {
   }
 }
 
-async function fetchAutocomplete(searchWord) {
-  if (searchWord === "") {
-    return [];
-  }
-
-  const query = encodeURIComponent(searchWord);
-  const url = `https://suggestqueries.google.com/complete/search?output=toolbar&hl=en&q=${query}`;
-  const response = await fetch(url);
-  const data = await response.text();
-
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(data, "text/xml");
-  const suggestions = xmlDoc.getElementsByTagName("suggestion");
-
-  const suggestionList = [];
-  for (let i = 0; i < suggestions.length; i++) {
-    const text = suggestions[i].getAttribute("data");
-    suggestionList.push({
-      title: text,
-      url: `https://www.google.com/search?q=${encodeURIComponent(text)}`,
-    });
-  }
-
-  return (
-    suggestionList.map((item) => {
-      return {
-        title: item.title,
-        url: item.url,
-      };
-    }) ?? []
-  );
-}
-
 async function searchInputObserver() {
   $(util.toId(constant.SEARCH_FORM_CLASS)).keyup(
     util.debounce(async function () {
       const searchWord = $(util.toId(constant.SEARCH_FORM_CLASS)).val();
       if (searchWord === "") {
-        document.getElementById(constant.SUGGEST_CLASS).innerText = "";
+        document.getElementById(constant.AUTO_COMPLETE_CLASS).innerText = "";
         return;
       }
 
-      const suggest = (await findSuggestCandidate(searchWord)) ?? "";
-      document.getElementById(constant.SUGGEST_CLASS).innerText = suggest;
+      const suggest = (await findAutoCompleteCandidate(searchWord)) ?? "";
+      document.getElementById(constant.AUTO_COMPLETE_CLASS).innerText = suggest;
     }, 10),
   );
 

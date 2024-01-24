@@ -11,7 +11,7 @@ const cycleOrder = [
 
 export function shortcutObserver(
   searchClass,
-  suggestClass,
+  autoCompleteClass,
   storeSuggestCandidatesFn,
 ) {
   $(window).keydown(function (e) {
@@ -86,7 +86,7 @@ export function shortcutObserver(
     // Apply suggestion
     if ((e.ctrlKey && e.code === "KeyE") || e.code === "Tab") {
       if (clazz?.includes(searchClass) && $(util.toId(searchClass)).val()) {
-        const suggestion = document.getElementById(suggestClass).innerText;
+        const suggestion = document.getElementById(autoCompleteClass).innerText;
         $(util.toId(searchClass)).val(suggestion);
         e.preventDefault();
       }
