@@ -21,6 +21,12 @@ export function shortcutObserver(
     if (e.code === "Enter") {
       const searchedText = $(util.toId(searchClass)).val();
       storeSuggestCandidatesFn(searchedText);
+
+      // FIXME: as option
+      if (clazz?.includes(searchClass) && !e.isComposing && $(util.toId(searchClass)).val()) {
+        chrome.search.query({ text: $(util.toId(searchClass)).val() });
+        e.preventDefault();
+      }
     }
 
     // Move next/prev history/bookmark
