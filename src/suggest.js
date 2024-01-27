@@ -1,38 +1,32 @@
-import * as constant from "./const.js";
-
-export async function storeSuggestCandidates(candidate) {
-  const oldCandidates = await fetchSuggestCandidates();
-  const newCandidates = appendSuggestion(oldCandidates, candidate);
-  chrome.storage.local.set({ suggestCandidates: newCandidates });
-}
-
-export async function findSuggestCandidate(word) {
-  const candidates = await fetchSuggestCandidates();
-  const suggest = candidates.find((c) => {
-    if (c.startsWith(word)) {
-      return c;
-    }
-  });
-  return suggest;
-}
-
-//////////////////
-// Private Methods
-//////////////////
-
-async function fetchSuggestCandidates() {
-  const { suggestCandidates } = await chrome.storage.local.get({
-    suggestCandidates: [],
-  });
-  return suggestCandidates;
-}
-
-function appendSuggestion(candidates, candidate) {
-  const _candidates = Array.from(new Set([candidate, ...candidates]));
-  if (_candidates.length > constant.MAX_SUGGEST_CANDIDATES) {
-    _candidates.splice(
-      -1 * (_candidates.length - constant.MAX_SUGGEST_CANDIDATES),
-    );
+export async function fetchSearchSuggestions(searchWord) {
+  if (searchWord === "") {
+    return [];
   }
-  return _candidates;
+
+  const query = encodeURIComponent(searchWord);
+  const url = `https://suggestqueries.google.com/complete/search?output=toolbar&hl=en&q=${query}`;
+  const response = await fetch(url);
+  const data = await response.text();
+
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(data, "text/xml");
+  const suggestions = xmlDoc.getElementsByTagName("suggestion");
+
+  const suggestionList = [];
+  for (let i = 0; i < suggestions.length; i++) {
+    const text = suggestions[i].getAttribute("data");
+    suggestionList.push({
+      title: text,
+      url: `https://www.google.com/search?q=${encodeURIComponent(text)}`,
+    });
+  }
+
+  return (
+    suggestionList.map((item) => {
+      return {
+        title: item.title,
+        url: item.url,
+      };
+    }) ?? []
+  );
 }

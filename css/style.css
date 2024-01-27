@@ -42,7 +42,7 @@ a:focus {
   cursor: pointer;
 }
 
-.suggestion {
+.autoComplete {
   position: absolute;
   padding: 0.45rem 0.8rem;
   line-height: 1.5;

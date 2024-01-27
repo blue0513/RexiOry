@@ -4,7 +4,11 @@ import * as util from "./util.js";
 import { shortcutObserver } from "./shortcutObserver.js";
 import { dumpHistory } from "./history.js";
 import { dumpBookmarks } from "./bookmark.js";
-import { storeSuggestCandidates, findSuggestCandidate } from "./suggest.js";
+import {
+  storeAutoCompleteCandidates,
+  findAutoCompleteCandidate,
+} from "./autoComplete.js";
+import { fetchSearchSuggestions } from "./suggest.js";
 
 let preSearchWord = "";
 
@@ -26,11 +30,9 @@ async function initialize() {
 
   // Observe user actions
   shortcutObserver(
-    constant.HISTORY_ITEM_CLASS,
-    constant.BOOKMARK_ITEM_CLASS,
     constant.SEARCH_FORM_CLASS,
-    constant.SUGGEST_CLASS,
-    storeSuggestCandidates,
+    constant.AUTO_COMPLETE_CLASS,
+    storeAutoCompleteCandidates,
   );
   searchInputObserver();
 
@@ -56,6 +58,15 @@ async function buildHistoryBookmarkList(searchWord) {
     bookmarkItems,
     constant.BOOKMARK_LIST_CLASS,
     constant.BOOKMARK_ITEM_CLASS,
+  );
+
+  // Search suggestions
+  const searchItems = await fetchSearchSuggestions(searchWord);
+  $(util.toId(constant.SEARCH_LIST_CLASS)).empty();
+  buildItemList(
+    searchItems,
+    constant.SEARCH_LIST_CLASS,
+    constant.SEARCH_ITEM_CLASS,
   );
 }
 
@@ -89,12 +100,12 @@ async function searchInputObserver() {
     util.debounce(async function () {
       const searchWord = $(util.toId(constant.SEARCH_FORM_CLASS)).val();
       if (searchWord === "") {
-        document.getElementById(constant.SUGGEST_CLASS).innerText = "";
+        document.getElementById(constant.AUTO_COMPLETE_CLASS).innerText = "";
         return;
       }
 
-      const suggest = (await findSuggestCandidate(searchWord)) ?? "";
-      document.getElementById(constant.SUGGEST_CLASS).innerText = suggest;
+      const suggest = (await findAutoCompleteCandidate(searchWord)) ?? "";
+      document.getElementById(constant.AUTO_COMPLETE_CLASS).innerText = suggest;
     }, 10),
   );
 
