@@ -11,15 +11,22 @@ Additionally, by displaying _Romnibar_ on the current tab, you can quickly acces
 - *This extension is a prototype. We do destructive changes from time to time*
 
 ### New Tab Page
-![output](https://user-images.githubusercontent.com/8979468/222137781-7b02f2ad-b052-4995-9e07-24b31f8c47ba.gif)
+
+Just opening a new tab
+
+<img width="1706" alt="Screenshot 2024-02-05 at 22 45 46" src="https://github.com/blue0513/RexiOry/assets/8979468/5beb1b52-4fad-4ff8-a84b-ed7b71facff1">
 
 ### Romnibar
-![Romnibar](https://github.com/blue0513/RexiOry/assets/8979468/0028a03a-e457-4042-ad6a-d709353e1fa5)
+
+Can be called upon any web page
+
+<img width="1701" alt="Screenshot 2024-02-05 at 22 47 44" src="https://github.com/blue0513/RexiOry/assets/8979468/b50de00c-7117-490f-a735-c1e0bc3e1fd4">
 
 ## Features
 
 - Simple UI with shortcuts
 - Fast fuzzy search for History & Bookmarks
+- Suggest google search words
 - No data is sent to the server
 
 ## Usage
