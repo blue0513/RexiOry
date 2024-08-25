@@ -6,6 +6,7 @@ import { removeBookmarkItem } from "./bookmark.js";
 const cycleOrder = [
   constant.HISTORY_ITEM_CLASS,
   constant.BOOKMARK_ITEM_CLASS,
+  constant.READING_ITEM_CLASS,
   constant.SEARCH_ITEM_CLASS,
 ];
 
@@ -39,6 +40,9 @@ export function shortcutObserver(
       if (clazz?.includes(constant.BOOKMARK_ITEM_CLASS)) {
         moveFocus($focused, constant.BOOKMARK_ITEM_CLASS, "plus");
       }
+      if (clazz?.includes(constant.READING_ITEM_CLASS)) {
+        moveFocus($focused, constant.READING_ITEM_CLASS, "plus");
+      }
       if (clazz?.includes(constant.SEARCH_ITEM_CLASS)) {
         moveFocus($focused, constant.SEARCH_ITEM_CLASS, "plus");
       }
@@ -49,6 +53,9 @@ export function shortcutObserver(
       }
       if (clazz?.includes(constant.BOOKMARK_ITEM_CLASS)) {
         moveFocus($focused, constant.BOOKMARK_ITEM_CLASS, "minus");
+      }
+      if (clazz?.includes(constant.READING_ITEM_CLASS)) {
+        moveFocus($focused, constant.READING_ITEM_CLASS, "minus");
       }
       if (clazz?.includes(constant.SEARCH_ITEM_CLASS)) {
         moveFocus($focused, constant.SEARCH_ITEM_CLASS, "minus");

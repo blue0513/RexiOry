@@ -9,6 +9,7 @@ import {
   findAutoCompleteCandidate,
 } from "./autoComplete.js";
 import { fetchSearchSuggestions } from "./suggest.js";
+import { fetchReadingList } from "./readingList.js";
 
 let preSearchWord = "";
 
@@ -67,6 +68,14 @@ async function buildHistoryBookmarkList(searchWord) {
     searchItems,
     constant.SEARCH_LIST_CLASS,
     constant.SEARCH_ITEM_CLASS,
+  );
+
+  const readingListItems = await fetchReadingList(searchWord);
+  $(util.toId(constant.READING_LIST_CLASS)).empty();
+  buildItemList(
+    readingListItems,
+    constant.READING_LIST_CLASS,
+    constant.READING_ITEM_CLASS,
   );
 }
 

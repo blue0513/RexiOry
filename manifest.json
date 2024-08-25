@@ -14,7 +14,8 @@
     "storage",
     "tabs",
     "scripting",
-    "webNavigation"
+    "webNavigation",
+    "readingList"
   ],
   "options_ui": {
     "page": "options.html",
