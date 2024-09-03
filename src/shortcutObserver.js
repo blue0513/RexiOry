@@ -2,6 +2,7 @@ import * as constant from "./const.js";
 import * as util from "./util.js";
 import { removeHistoryItem } from "./history.js";
 import { removeBookmarkItem } from "./bookmark.js";
+import { removeReadingItem } from "./readingList.js";
 
 const cycleOrder = [
   constant.HISTORY_ITEM_CLASS,
@@ -145,6 +146,11 @@ export function shortcutObserver(
       }
       if (clazz?.includes(constant.BOOKMARK_ITEM_CLASS)) {
         removeBookmarkItem(aElement.href);
+        aElement.classList.add("removed-item");
+        e.preventDefault();
+      }
+      if (clazz?.includes(constant.READING_ITEM_CLASS)) {
+        removeReadingItem(aElement.href);
         aElement.classList.add("removed-item");
         e.preventDefault();
       }

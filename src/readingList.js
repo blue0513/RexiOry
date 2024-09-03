@@ -14,6 +14,10 @@ export async function fetchReadingList(query) {
   });
 }
 
+export async function removeReadingItem(url) {
+  await chrome.readingList.removeEntry({ url });
+}
+
 function buildFuseObject(readingItems) {
   const fuseTarget = readingItems.map((item) => {
     return { title: item.title, url: item.url };
