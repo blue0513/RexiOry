@@ -11,5 +11,7 @@ export const BOOKMARK_LIST_CLASS = "bookmarkItemList";
 export const BOOKMARK_ITEM_CLASS = "bookmarkItem";
 export const SEARCH_LIST_CLASS = "searchItemList";
 export const SEARCH_ITEM_CLASS = "searchItem";
+export const READING_LIST_CLASS = "readingItemList";
+export const READING_ITEM_CLASS = "readingItem";
 export const MAX_SUGGEST_CANDIDATES = 100;
 export const AUTO_COMPLETE_CLASS = "autoComplete";
