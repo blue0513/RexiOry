@@ -11,6 +11,6 @@
     "devDependencies": {
         "eslint": "^9.14.0",
         "eslint-plugin-jquery": "^1.5.1",
-        "prettier": "3.3.3"
+        "prettier": "3.4.2"
     }
 }
